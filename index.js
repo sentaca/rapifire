@@ -1,3 +1,4 @@
+"use strict";
 var merge = require('merge');
 
 var Rapifire = function(config) {
@@ -5,9 +6,7 @@ var Rapifire = function(config) {
     url: 'wss://pubsub.sentaca.com:1443/pubsub',
     debug: false,
     onconnect: function() { console.log("Use new Rapifire({..., onconnect: fn, ...} to overwrite this function.");}
-  }, config);
-
-  var debug = configToUse.debug || false;
+  }, config), debug = configToUse.debug || false;
 
   if (debug) {
     console.log(configToUse);
@@ -48,19 +47,19 @@ var Rapifire = function(config) {
 
 
   var connect = function(c, subs) {
-    var _self = this;
+    var self = this;
     var ws = new WebSocket(c.url);
     ws.onopen = function() {
       if (debug) { console.log("Connected to %s", c.url); }
       ws.send(JSON.stringify(buildInitPacket(c)));
-      c.onconnect.apply(_self);
+      c.onconnect.apply(self);
     };
 
     ws.onmessage = function(message) {
       var msg = JSON.parse(message.data);
       if (debug) { console.log("Received message: %O", msg); }
       if(msg.channel !== undefined && msg.channel !== null && subs[msg.channel]) {
-        subs[msg.channel].apply(_self, [msg.message, msg.headers]);
+        subs[msg.channel].apply(self, [msg.message, msg.headers]);
       }
     };
 
@@ -77,9 +76,9 @@ var Rapifire = function(config) {
     } else {
       channels.push(subscriptionConfig.channel);
     }
-    var len = channels.length, i;
-    for(i = 0; i < len; i++ ) {
-      var channel = channels[i];
+    var len = channels.length, i = 0, channel;
+    for(i = 0; i < len; i++) {
+      channel = channels[i];
       subscriptions[channel] = subscriptionConfig.callback;
       ws.send(JSON.stringify(buildSubscribePacket(channel, subscriptionConfig.interactive)));
     }
