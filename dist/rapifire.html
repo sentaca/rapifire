@@ -1,0 +1,21 @@
+<script src="rapifire.js"></script>
+
+<script>
+ var client = new Rapifire({
+   appId: '36799b71-c79f-405e-b345-cc5827d0e401',
+   authId: 'iot_provider_3',
+   authKey: '$2a$10$NmpsYsprsfulW5M1gEmSbO26zELTrw2wb3QK702DePPgJIocQ8nGK',
+   debug: false,
+   url: 'ws://localhost:8080/pubsub',
+   onconnect: function() {
+     client.subscribe({
+       channel:  'aW90X3Byb3ZpZGVyXzM=/all-things', // or channel: ['a', 'b', 'c'] 
+       interactive: true,
+       callback: function(message, headers) {
+         console.log("Received msg: %O headers: %O", message, headers);
+       }
+     });
+   }
+ });
+
+</script>

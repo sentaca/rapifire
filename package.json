@@ -1,0 +1,32 @@
+{
+  "name": "rapifire",
+  "version": "0.1.0",
+  "description": "Rapifire.com websocket API client.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sentaca/rapifire.git"
+  },
+  "keywords": [
+    "publish/subscribe",
+    "client",
+    "websocket"
+  ],
+  "author": "Sentaca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sentaca/rapifire/issues"
+  },
+  "homepage": "https://github.com/sentaca/rapifire#readme",
+  "dependencies": {
+    "merge": "^1.2.0"
+  },
+  "devDependencies": {
+    "gulp-uglify": "^1.4.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

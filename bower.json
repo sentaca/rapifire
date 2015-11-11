@@ -1,0 +1,23 @@
+{
+  "name": "rapifire",
+  "description": "Rapifire.com websocket API client.",
+  "main": "dist/rapifire.min.js",
+  "authors": [
+    "Sentaca"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "publish/subscribe",
+    "client",
+    "websocket"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
