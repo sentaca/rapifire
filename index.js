@@ -56,7 +56,13 @@ var Rapifire = function(config) {
     };
 
     ws.onmessage = function(message) {
-      var msg = JSON.parse(message.data);
+      var msg;
+      try {
+        msg = JSON.parse(message.data);
+      } catch(e) {
+        console.error("Received %s but cannot parse it to JSON %s", message.data, e);
+        throw e;
+      }
       if (debug) { console.log("Received message: %O", msg); }
       if(msg.channel !== undefined && msg.channel !== null && subs[msg.channel]) {
         subs[msg.channel].apply(self, [msg.message, msg.headers]);
@@ -85,8 +91,21 @@ var Rapifire = function(config) {
     return this;
   };
 
+  this.publish = function(channel, message) {
+    var packet = {
+      "operation": "publish",
+      "data": {
+        "channel": channel,
+        "message": JSON.parse(message)
+      }
+    };
+    ws.send(JSON.stringify(packet));
+
+    return this;
+  };
+
   this.disconnect = function() {
-    ws.close();
+    ws.disconnect();
   };  
 
 };
