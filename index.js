@@ -105,8 +105,8 @@ var Rapifire = function(config) {
   };
 
   this.disconnect = function() {
-    ws.disconnect();
-  };  
+    ws.close();
+  };
 
 };
 
