@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/sentaca/rapifire#readme",
   "dependencies": {
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.1",
     "merge": "^1.2.0"
   },
   "devDependencies": {

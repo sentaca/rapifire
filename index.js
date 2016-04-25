@@ -5,7 +5,8 @@ var Rapifire = function(config) {
   var configToUse = merge({
     url: 'wss://pubsub.sentaca.com:1443/pubsub',
     debug: false,
-    onconnect: function() { console.log("Use new Rapifire({..., onconnect: fn, ...} to overwrite this function.");}
+    onconnect: function() { console.log("Use new Rapifire({..., onconnect: fn, ...} to overwrite this function.");},
+    onpresence: function(e) {console.log("Use new Rapifire({..., onpresence: fn, ...} to overwrite this function.", e);} 
   }, config), debug = configToUse.debug || false;
 
   if (debug) {
@@ -49,6 +50,8 @@ var Rapifire = function(config) {
   var connect = function(c, subs) {
     var self = this;
     var ws = new WebSocket(c.url);
+    var config = c;
+    
     ws.onopen = function() {
       if (debug) { console.log("Connected to %s", c.url); }
       ws.send(JSON.stringify(buildInitPacket(c)));
@@ -64,7 +67,11 @@ var Rapifire = function(config) {
         throw e;
       }
       if (debug) { console.log("Received message: %O", msg); }
-      if(msg.channel !== undefined && msg.channel !== null && subs[msg.channel]) {
+
+      // {"authId":"697c3da3-9836-4486-b277-2b0a16ef74a0","type":"notification/channel","action":"CHANNEL_JOIN","channel":"85ca2671dca9831bb43baa43ecdd6c28"}
+      if(msg.type === "notification/channel" && typeof(config.onpresence) === 'function' ) {
+        config.onpresence.apply(self, [{channel: msg.channel, authId: msg.authId, action: msg.action}]);
+      } else if(msg.channel !== undefined && msg.channel !== null && subs[msg.channel]) {
         subs[msg.channel].apply(self, [msg.message, msg.headers]);
       }
     };
