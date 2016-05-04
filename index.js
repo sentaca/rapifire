@@ -95,8 +95,11 @@ var Rapifire = function(config) {
     var len = channels.length, i = 0, channel;
     for(i = 0; i < len; i++) {
       channel = channels[i];
-      subscriptions[channel] = subscriptionConfig.callback;
-      ws.send(JSON.stringify(buildSubscribePacket(channel, subscriptionConfig.interactive)));
+      var send = (subscriptions[channels] === undefined);
+      subscriptions[channel] = subscriptionConfig.callback
+      if(send) { 
+        ws.send(JSON.stringify(buildSubscribePacket(channel, subscriptionConfig.interactive)));
+      }
     }
     return this;
   };

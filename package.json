@@ -1,6 +1,6 @@
 {
   "name": "rapifire",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Rapifire.com websocket API client.",
   "main": "index.js",
   "scripts": {
